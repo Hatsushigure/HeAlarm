@@ -1,9 +1,11 @@
 import QtQuick
-import QtQuick.Window
 
 Window {
-	width: 640
-	height: 480
+	width: 640; height: 480
 	visible: true
-	title: qsTr("Hello World")
+	title: qsTr("HeAlarm 0.1.0")
+
+	ClockPage {
+		anchors.fill: parent
+	}
 }
