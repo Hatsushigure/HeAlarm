@@ -11,6 +11,7 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(HeAlarm
     main.cpp
+    HeAlarm.h HeAlarm.cpp
 )
 
 qt_add_qml_module(HeAlarm
@@ -19,6 +20,8 @@ qt_add_qml_module(HeAlarm
     QML_FILES Main.qml
         ClockPage.qml
 	Card.qml
+	AlarmDelegate.qml
+	WeekIndicator.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

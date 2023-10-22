@@ -5,7 +5,8 @@ Window {
 	visible: true
 	title: qsTr("HeAlarm 0.1.0")
 
-	ClockPage {
+	Card {
 		anchors.fill: parent
+		Text {text: "卡片内容"; font.pointSize: 12; anchors.centerIn: parent}
 	}
 }
