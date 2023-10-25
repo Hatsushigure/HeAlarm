@@ -5,6 +5,8 @@ import QtQuick.Effects
 import HeAlarm
 
 Item {
+	signal editBtnClicked()
+
 	id: root
 	implicitWidth: 500; implicitHeight: 700
 
@@ -70,7 +72,7 @@ Item {
 					radius: width / 2
 					border.color: "#33808080"
 				}
-				onClicked: console.log(lstView.currentIndex);
+				onClicked: root.editBtnClicked()
 			}
 
 

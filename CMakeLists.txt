@@ -27,6 +27,7 @@ qt_add_qml_module(HeAlarm
 	WeekIndicator.qml
 	AlarmPage.qml
 	NavigationBar.qml
+	AlarmEditPage.qml
     RESOURCES
         res.qrc
 )
