@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/Icons/Material/Rounded/Plus.png</file>
+        <file>res/Icons/Material/Rounded/Edit.png</file>
+        <file>res/Icons/Material/Rounded/Alarm.png</file>
+        <file>res/Icons/Material/Rounded/Clock.png</file>
+    </qresource>
+</RCC>

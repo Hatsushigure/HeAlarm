@@ -2,8 +2,8 @@ import QtQuick
 
 Item {
 	property string text
-	property bool lit: false
-	property color litColor: "lightblue"
+	property bool isActive: false
+	property color activeColor: "lightblue"
 
 	id: root
 	implicitWidth: background.width; implicitHeight: background.height
@@ -14,7 +14,7 @@ Item {
 		radius: 6
 		border.color: "#33808080"; border.width: 1
 		antialiasing: true
-		color: lit ? litColor : "transparent"
+		color: isActive ? activeColor : "transparent"
 
 		Text {anchors.centerIn: parent; text: root.text; font.pointSize: 8}
 	}
