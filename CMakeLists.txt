@@ -28,6 +28,11 @@ qt_add_qml_module(HeAlarm
 	AlarmPage.qml
 	NavigationBar.qml
 	AlarmEditPage.qml
+	TimePicker.qml
+	RoundToggleButton.qml
+	BorderIndicator.qml
+	DayPicker.qml
+	HeAlarmJs.js
     RESOURCES
         res.qrc
 )

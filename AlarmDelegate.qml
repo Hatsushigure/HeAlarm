@@ -2,9 +2,11 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Material as Controls
 import HeAlarm
+import "HeAlarmJs.js" as HeAlarmJs
 
 Item {
-	property string timeString: "10:10"
+	property int hour: 10
+	property int minute: 10
 	property bool isActive: true
 	property string title: "闹铃"
 	property int activeDays: HeAlarm.All
@@ -31,7 +33,7 @@ Item {
 
 				rows: 2; columns: 3
 				columnSpacing: 16
-				Text {Layout.rowSpan: 2; text: timeString; font.bold: true; font.pointSize: 18}
+				Text {Layout.rowSpan: 2; text: HeAlarmJs.timeTxt(hour) + ":" + HeAlarmJs.timeTxt(minute); font.bold: true; font.pointSize: 18}
 				Text {Layout.row: 0; Layout.column: 1; Layout.alignment: Qt.AlignCenter; text: title}
 				RowLayout {
 					Layout.row: 1; Layout.column: 1
@@ -45,7 +47,7 @@ Item {
 					WeekIndicator {text: "六"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Saturday}
 					WeekIndicator {text: "日"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Sunday}
 				}
-				Controls.Switch {Layout.row: 0; Layout.column: 2; Layout.rowSpan: 2; checked: isActive}
+				Controls.Switch {Layout.row: 0; Layout.column: 2; Layout.rowSpan: 2; Controls.Material.accent: "lightgreen"; checked: isActive}
 			}
 		}
 	}

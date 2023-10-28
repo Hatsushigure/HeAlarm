@@ -29,7 +29,7 @@ Window {
 				}
 
 				AlarmPage {
-					onEditBtnClicked: editPge.visible = true
+					editPage: editPge
 				}
 			}
 
