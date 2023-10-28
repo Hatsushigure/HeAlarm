@@ -19,16 +19,17 @@ Item {
 			Layout.fillWidth: true; Layout.fillHeight: true
 
 			id: lstView
-			model: ListModel {
-				ListElement {hour: 1; minute: 2; title: "111"; isActive: true; activeDays: HeAlarm.Monday}
-				ListElement {hour: 3; minute: 4; title: "222"; isActive: false; activeDays: HeAlarm.Tuesday}
-				ListElement {hour: 5; minute: 6; title: "333"; isActive: true; activeDays: HeAlarm.Wednesday}
-				ListElement {hour: 7; minute: 8; title: "444"; isActive: false; activeDays: HeAlarm.Thursday}
-				ListElement {hour: 9; minute: 10; title: "555"; isActive: true; activeDays: HeAlarm.Friday}
-				ListElement {hour: 11; minute: 12; title: "666"; isActive: false; activeDays: HeAlarm.Saturday}
-				ListElement {hour: 13; minute: 14; title: "777"; isActive: true; activeDays: HeAlarm.Sunday}
-				ListElement {hour: 15; minute: 16; title: "888"; isActive: false; activeDays: HeAlarm.Weekday}
-				ListElement {hour: 17; minute: 18; title: "999"; isActive: true; activeDays: HeAlarm.Weekend}
+			model: AlarmModel {
+				id: almModel
+//				AlarmData {hour: 1; minute: 2; title: "111"; isActive: true; activeDays: HeAlarm.Monday}
+//				AlarmData {hour: 3; minute: 4; title: "222"; isActive: false; activeDays: HeAlarm.Tuesday}
+//				AlarmData {hour: 5; minute: 6; title: "333"; isActive: true; activeDays: HeAlarm.Wednesday}
+//				AlarmData {hour: 7; minute: 8; title: "444"; isActive: false; activeDays: HeAlarm.Thursday}
+//				AlarmData {hour: 9; minute: 10; title: "555"; isActive: true; activeDays: HeAlarm.Friday}
+//				AlarmData {hour: 11; minute: 12; title: "666"; isActive: false; activeDays: HeAlarm.Saturday}
+//				AlarmData {hour: 13; minute: 14; title: "777"; isActive: true; activeDays: HeAlarm.Sunday}
+//				AlarmData {hour: 15; minute: 16; title: "888"; isActive: false; activeDays: HeAlarm.Weekday}
+//				AlarmData {hour: 17; minute: 18; title: "999"; isActive: true; activeDays: HeAlarm.Weekend}
 			}
 
 			spacing: 16
@@ -41,9 +42,9 @@ Item {
 					id: dl
 					anchors.centerIn: parent
 
-					hour: model.hour
-					minute: model.minute
-					title: model.title
+					 hour: model.modelData.HourRole
+					 minute: model.data
+					 title: model.toString()
 					isActive: model.isActive
 					activeDays: model.activeDays
 					onClicked: {
@@ -88,7 +89,14 @@ Item {
 					source: "qrc:///res/Icons/Material/Rounded/Plus.png"
 					mipmap: true
 				}
-				onClicked: console.log("Add btn Clicked");
+				AlarmData {
+					id: almData
+					hour: 1; minute: 2
+					title: "aaa"
+					isActive: true
+					activeDays: 0
+				}
+				onClicked: almModel.addTestData()
 			}
 		}
 	}
