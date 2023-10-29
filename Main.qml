@@ -3,11 +3,11 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material as Controls
 
 Window {
-	width: 640; height: 480
+	width: 640; height: 724
 	visible: true
 	title: qsTr("HeAlarm 0.1.0")
 	color: "#f1f1f1"
-	minimumWidth: swpView.currentItem.implicitWidth; minimumHeight: swpView.currentItem.implicitHeight
+	minimumWidth: swpView.currentItem.implicitWidth; minimumHeight: 600
 
 	ColumnLayout {
 		anchors.fill: parent
@@ -29,7 +29,7 @@ Window {
 				}
 
 				AlarmPage {
-
+					editPage: editPge
 				}
 			}
 
@@ -39,5 +39,12 @@ Window {
 				id: nvgBar
 			}
 		}
+	}
+
+	AlarmEditPage {
+		id: editPge
+		anchors.fill: parent
+		visible: false
+		onCancled: visible = false
 	}
 }

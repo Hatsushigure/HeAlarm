@@ -1,10 +1,11 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Material as Controls
-import QtQuick.Effects
 import HeAlarm
 
 Item {
+	required property AlarmEditPage editPage
+
 	id: root
 	implicitWidth: 500; implicitHeight: 700
 
@@ -18,37 +19,25 @@ Item {
 			Layout.fillWidth: true; Layout.fillHeight: true
 
 			id: lstView
-			model: ListModel {
-				ListElement {timeString: "11:45"; title: ""; isActive: true; activeDays: HeAlarm.Monday}
-				ListElement {timeString: "11:45"; title: ""; isActive: false; activeDays: HeAlarm.Tuesday}
-				ListElement {timeString: "11:45"; title: ""; isActive: true; activeDays: HeAlarm.Wednesday}
-				ListElement {timeString: "11:45"; title: ""; isActive: false; activeDays: HeAlarm.Thursday}
-				ListElement {timeString: "11:45"; title: ""; isActive: true; activeDays: HeAlarm.Friday}
-				ListElement {timeString: "11:45"; title: ""; isActive: false; activeDays: HeAlarm.Saturday}
-				ListElement {timeString: "11:45"; title: ""; isActive: true; activeDays: HeAlarm.Sunday}
-				ListElement {timeString: "11:45"; title: ""; isActive: false; activeDays: HeAlarm.Weekday}
-				ListElement {timeString: "11:45"; title: ""; isActive: true; activeDays: HeAlarm.Weekend}
-			}
+			model: AlarmModel {id: almModel}
 
 			spacing: 16
 			clip: true
-			delegate: MouseArea {
-				width: lstView.width; height: dl.height
-				onClicked: editBtn.visible = false
+			delegate: AlarmDelegate {
+				required property int index
+				required hour
+				required minute
+				required title
+				required isActive
+				required activeDays
 
-				AlarmDelegate {
-					id: dl
-					anchors.centerIn: parent
-
-					timeString: model.timeString
-					title: model.title + model.index
-					isActive: model.isActive
-					activeDays: model.activeDays
-					onClicked: {
-						lstView.currentIndex = model.index
-						editBtn.visible = true
-					}
+				id: dl
+				width: lstView.width
+				onClicked: {
+					lstView.currentIndex = index
+					editBtn.visible = true
 				}
+				onIsActiveChanged: almModel.setIsActive(index, isActive)
 			}
 		}
 
@@ -57,6 +46,7 @@ Item {
 
 			Controls.RoundButton {
 				Layout.alignment: Qt.AlignCenter
+				Controls.Material.background: "lightgreen"
 
 				id: editBtn
 				implicitWidth: 72; implicitHeight: 72
@@ -65,30 +55,53 @@ Item {
 					source: "qrc:///res/Icons/Material/Rounded/Edit.png"
 					mipmap: true
 				}
-				background: Rectangle {
-					color: "lightgreen"
-					radius: width / 2
-					border.color: "#33808080"
+				onClicked: {
+					editPage.visible = true
+					privateFunc.fillEditPage()
 				}
-				onClicked: console.log(lstView.currentIndex);
 			}
 
 
 			Controls.RoundButton {
 				Layout.alignment: Qt.AlignCenter
+				Controls.Material.background: "lightgreen"
 
 				implicitWidth: 72; implicitHeight: 72
 				contentItem: Image {
 					source: "qrc:///res/Icons/Material/Rounded/Plus.png"
 					mipmap: true
 				}
-				background: Rectangle {
-					color: "lightgreen"
-					radius: width / 2
-					border.color: "#33808080"
+				onClicked: {
+					almModel.append(new Date().getHours(), new Date().getMinutes())
+					lstView.currentIndex = lstView.count - 1
+					editBtn.visible = true
+					editBtn.clicked()
 				}
-				onClicked: console.log("Add btn Clicked");
 			}
+		}
+	}
+
+	Connections {
+		target: editPage
+		function onAccepted() {
+			editPage.visible = false
+			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
+		}
+		function onDeleteRequested() {
+			editPage.visible = false
+			editBtn.visible = false
+			almModel.remove(lstView.currentIndex)
+		}
+	}
+
+	QtObject {
+		id: privateFunc
+		function fillEditPage() {
+			editPage.hour = lstView.currentItem.hour
+			editPage.minute = lstView.currentItem.minute
+			editPage.title = lstView.currentItem.title
+			editPage.activeDays = lstView.currentItem.activeDays
+			editPage.autoSetComboBox()
 		}
 	}
 }

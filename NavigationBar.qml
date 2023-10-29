@@ -26,8 +26,8 @@ Item {
 
 				Layout.alignment: Qt.AlignCenter
 
-				id: clk
 				width: 96; height: 54
+				antialiasing: true
 				radius: height / 2
 				color: isCurrent ? "lightgreen" : "transparent"
 

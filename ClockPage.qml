@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 
 Item {
+	implicitWidth: 600; implicitHeight: 600
+
 	ColumnLayout {
 		anchors.fill: parent
 
