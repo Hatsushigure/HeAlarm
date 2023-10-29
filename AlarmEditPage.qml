@@ -6,6 +6,7 @@ import HeAlarm
 Item {
 	signal cancled()
 	signal accepted()
+	signal deleteRequested()
 	property alias hour: timePicker.hour
 	property alias minute: timePicker.minute
 	property alias title: titleBox.text
@@ -21,7 +22,7 @@ Item {
 
 		Card {
 			anchors.centerIn: parent
-			width: 400; height: 540
+			width: 400; height: 580
 
 			MouseArea {anchors.fill: parent; onWheel: {}}
 
@@ -37,9 +38,9 @@ Item {
 					RowLayout {
 						Layout.fillWidth: true
 
+						id: titleBar
 						spacing: 12
 
-						//BorderIndicator {}
 						Item {Layout.fillWidth: true}
 
 						Image {
@@ -57,7 +58,6 @@ Item {
 							source: "qrc:/res/Icons/Material/Rounded/Tick.png"
 
 							MouseArea {anchors.fill: parent; onClicked: root.accepted()}
-							//BorderIndicator {}
 						}
 					}
 
@@ -85,7 +85,6 @@ Item {
 								font.bold: true
 								verticalAlignment: Text.AlignVCenter
 								font.pointSize: 16
-								//BorderIndicator {}
 							}
 
 							Controls.TextField {
@@ -95,7 +94,26 @@ Item {
 							}
 						}
 					}
+
 					Item {Layout.fillHeight: true}
+
+					Rectangle {
+						Layout.alignment: Qt.AlignHCenter
+
+						width: 160; height: 36
+						radius: height / 2
+						antialiasing: true
+						color: "#f36666"
+
+						Image {
+							source: "qrc:///res/Icons/Material/Rounded/Delete.png"
+							width: 24; height: width
+							anchors.centerIn: parent
+							mipmap: true
+						}
+
+						MouseArea {anchors.fill: parent; onClicked: root.deleteRequested()}
+					}
 				}
 			}
 		}

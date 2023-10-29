@@ -87,6 +87,9 @@ Item {
 			editPage.visible = false
 			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
 		}
+		function onDeleteRequested() {
+			console.log("Delete btn clicked")
+		}
 	}
 
 	QtObject {

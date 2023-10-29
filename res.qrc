@@ -6,5 +6,6 @@
         <file>res/Icons/Material/Rounded/Clock.png</file>
         <file>res/Icons/Material/Rounded/Tick.png</file>
         <file>res/Icons/Material/Rounded/X.png</file>
+        <file>res/Icons/Material/Rounded/Delete.png</file>
     </qresource>
 </RCC>
