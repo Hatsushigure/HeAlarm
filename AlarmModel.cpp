@@ -19,19 +19,19 @@ QVariant AlarmModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	if (index.row() < 0 || index.row() >= m_data.size())
 		return QVariant();
-	auto ret = m_data[index.row()];
+	auto& ret = m_data[index.row()];
 	switch (role)
 	{
 	case AlarmDataRoles::HourRole:
-		return ret->hour();
+		return ret.hour;
 	case AlarmDataRoles::MinuteRole:
-		return ret->minute();
+		return ret.minute;
 	case AlarmDataRoles::TitleRole:
-		return ret->title();
+		return ret.title;
 	case AlarmDataRoles::ActiveDaysRole:
-		return ret->activeDays();
+		return ret.activeDays;
 	case AlarmDataRoles::IsActiveRole:
-		return ret->isActive();
+		return ret.isActive;
 	default:
 		return QVariant::fromValue(ret);
 	}
@@ -44,8 +44,7 @@ bool AlarmModel::insertRows(int row, int count, const QModelIndex &parent)
 	if (row < 0 || row > m_data.size() || count < 1)
 		return false;
 	beginInsertRows(parent, row, row + count - 1);
-	for (auto i = row; i < row + count; i++)
-		m_data.insert(i, new AlarmData);
+	m_data.insert(row, count, {});
 	endInsertRows();
 	return true;
 }
@@ -57,8 +56,6 @@ bool AlarmModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (row < 0 || row > m_data.size() || count < 1 || row + count > m_data.size())
 		return false;
 	beginRemoveRows(parent, row, row + count - 1);
-	for (auto i = row + count - 1; i >= row; i--)
-		delete m_data[i];
 	m_data.remove(row, count);
 	endRemoveRows();
 	return true;
@@ -75,8 +72,50 @@ QHash<int, QByteArray> AlarmModel::roleNames() const
 	return hash;
 }
 
-void AlarmModel::addTestData()
+void AlarmModel::append(const AlarmData& data)
 {
-	insertRows(0, 1);
-	m_data[0]->setHour(1);
+	beginInsertRows(QModelIndex(), rowCount(), rowCount());
+	m_data.emplace_back(data);
+	endInsertRows();
+}
+
+void AlarmModel::append(int hour, int minute, bool isActive, int activeDays, const QString& title)
+{
+	beginInsertRows(QModelIndex(), rowCount(), rowCount());
+	m_data.emplace_back(hour, minute, activeDays, title, isActive);
+	endInsertRows();
+}
+
+void AlarmModel::append(AlarmData&& data)
+{
+	beginInsertRows(QModelIndex(), rowCount(), rowCount());
+	m_data.emplace_back(data);
+	endInsertRows();
+}
+
+void AlarmModel::setData(int row, const AlarmData& data)
+{
+	if (row < 0 || row >= m_data.size())
+		return;
+	if (m_data.at(row) == data)
+		return;
+	m_data[row] = data;
+	emit dataChanged(index(row), index(row));
+}
+
+void AlarmModel::setData(int row, AlarmData&& data)
+{
+	if (row < 0 || row >= m_data.size())
+		return;
+	if (m_data.at(row) == data)
+		return;
+	m_data[row] = data;
+	emit dataChanged(index(row), index(row));
+}
+
+void AlarmModel::setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title)
+{
+	if (row < 0 || row >= m_data.size())
+		return;
+	setData(row, {hour, minute, activeDays, title, isActive});
 }

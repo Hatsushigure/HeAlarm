@@ -21,36 +21,23 @@ Item {
 			id: lstView
 			model: AlarmModel {
 				id: almModel
-//				AlarmData {hour: 1; minute: 2; title: "111"; isActive: true; activeDays: HeAlarm.Monday}
-//				AlarmData {hour: 3; minute: 4; title: "222"; isActive: false; activeDays: HeAlarm.Tuesday}
-//				AlarmData {hour: 5; minute: 6; title: "333"; isActive: true; activeDays: HeAlarm.Wednesday}
-//				AlarmData {hour: 7; minute: 8; title: "444"; isActive: false; activeDays: HeAlarm.Thursday}
-//				AlarmData {hour: 9; minute: 10; title: "555"; isActive: true; activeDays: HeAlarm.Friday}
-//				AlarmData {hour: 11; minute: 12; title: "666"; isActive: false; activeDays: HeAlarm.Saturday}
-//				AlarmData {hour: 13; minute: 14; title: "777"; isActive: true; activeDays: HeAlarm.Sunday}
-//				AlarmData {hour: 15; minute: 16; title: "888"; isActive: false; activeDays: HeAlarm.Weekday}
-//				AlarmData {hour: 17; minute: 18; title: "999"; isActive: true; activeDays: HeAlarm.Weekend}
 			}
 
 			spacing: 16
 			clip: true
-			delegate: MouseArea {
-				width: lstView.width; height: dl.height
-				onClicked: editBtn.visible = false
+			delegate: AlarmDelegate {
+				required property int index
+				required hour
+				required minute
+				required title
+				required isActive
+				required activeDays
 
-				AlarmDelegate {
-					id: dl
-					anchors.centerIn: parent
-
-					 hour: model.modelData.HourRole
-					 minute: model.data
-					 title: model.toString()
-					isActive: model.isActive
-					activeDays: model.activeDays
-					onClicked: {
-						lstView.currentIndex = model.index
-						editBtn.visible = true
-					}
+				id: dl
+				width: lstView.width
+				onClicked: {
+					lstView.currentIndex = index
+					editBtn.visible = true
 				}
 			}
 		}
@@ -71,10 +58,10 @@ Item {
 				}
 				onClicked: {
 					editPage.visible = true
-					editPage.hour = lstView.currentItem.children[0].hour
-					editPage.minute = lstView.currentItem.children[0].minute
-					editPage.title = lstView.currentItem.children[0].title
-					editPage.activeDays = lstView.currentItem.children[0].activeDays
+					editPage.hour = lstView.currentItem.hour
+					editPage.minute = lstView.currentItem.minute
+					editPage.title = lstView.currentItem.title
+					editPage.activeDays = lstView.currentItem.activeDays
 					editPage.autoSetComboBox()
 				}
 			}
@@ -89,15 +76,16 @@ Item {
 					source: "qrc:///res/Icons/Material/Rounded/Plus.png"
 					mipmap: true
 				}
-				AlarmData {
-					id: almData
-					hour: 1; minute: 2
-					title: "aaa"
-					isActive: true
-					activeDays: 0
-				}
-				onClicked: almModel.addTestData()
+				onClicked: almModel.append(1, 2, false, HeAlarm.All, "Test Test Test")
 			}
+		}
+	}
+
+	Connections {
+		target: editPage
+		function onAccepted() {
+			editPage.visible = false
+			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, true, editPage.activeDays, editPage.title)
 		}
 	}
 }
