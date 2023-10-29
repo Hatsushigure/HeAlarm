@@ -7,7 +7,7 @@ import "HeAlarmJs.js" as HeAlarmJs
 Item {
 	property int hour: 10
 	property int minute: 10
-	property bool isActive: true
+	property bool isActive: activeSwitch.checked
 	property string title: "闹铃"
 	property int activeDays: HeAlarm.All
 	signal clicked()
@@ -52,7 +52,14 @@ Item {
 						WeekIndicator {text: "六"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Saturday}
 						WeekIndicator {text: "日"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Sunday}
 					}
-					Controls.Switch {Layout.row: 0; Layout.column: 2; Layout.rowSpan: 2; Controls.Material.accent: "lightgreen"; checked: isActive}
+					Controls.Switch {
+						Layout.row: 0; Layout.column: 2
+						Layout.rowSpan: 2
+						Controls.Material.accent: "lightgreen"
+
+						id: activeSwitch
+						onCheckedChanged: root.isActive = checked
+					}
 				}
 			}
 		}

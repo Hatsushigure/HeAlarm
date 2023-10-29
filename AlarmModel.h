@@ -30,5 +30,6 @@ public:
 	void setData(int row, const AlarmData& data);
 	void setData(int row, AlarmData&& data);
 	Q_INVOKABLE void setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title);
+	Q_INVOKABLE void setIsActive(int row, bool isActive);
 };
 

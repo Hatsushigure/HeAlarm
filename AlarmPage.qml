@@ -19,9 +19,7 @@ Item {
 			Layout.fillWidth: true; Layout.fillHeight: true
 
 			id: lstView
-			model: AlarmModel {
-				id: almModel
-			}
+			model: AlarmModel {id: almModel}
 
 			spacing: 16
 			clip: true
@@ -39,6 +37,7 @@ Item {
 					lstView.currentIndex = index
 					editBtn.visible = true
 				}
+				onIsActiveChanged: almModel.setIsActive(index, isActive)
 			}
 		}
 
@@ -85,7 +84,7 @@ Item {
 		target: editPage
 		function onAccepted() {
 			editPage.visible = false
-			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, true, editPage.activeDays, editPage.title)
+			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
 		}
 	}
 }

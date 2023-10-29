@@ -119,3 +119,13 @@ void AlarmModel::setData(int row, int hour, int minute, bool isActive, int activ
 		return;
 	setData(row, {hour, minute, activeDays, title, isActive});
 }
+
+void AlarmModel::setIsActive(int row, bool isActive)
+{
+	if (row < 0 || row >= m_data.size())
+		return;
+	if (m_data[row].isActive == isActive)
+		return;
+	m_data[row].isActive = isActive;
+	emit dataChanged(index(row), index(row), {AlarmDataRoles::IsActiveRole});
+}
