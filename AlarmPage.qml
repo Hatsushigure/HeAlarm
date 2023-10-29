@@ -88,7 +88,9 @@ Item {
 			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
 		}
 		function onDeleteRequested() {
-			console.log("Delete btn clicked")
+			editPage.visible = false
+			editBtn.visible = false
+			almModel.remove(lstView.currentIndex)
 		}
 	}
 

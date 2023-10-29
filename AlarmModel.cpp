@@ -129,3 +129,12 @@ void AlarmModel::setIsActive(int row, bool isActive)
 	m_data[row].isActive = isActive;
 	emit dataChanged(index(row), index(row), {AlarmDataRoles::IsActiveRole});
 }
+
+void AlarmModel::remove(int row)
+{
+	if (row < 0 || row >= m_data.size())
+		return;
+	beginRemoveRows(QModelIndex(), row, row);
+	m_data.remove(row);
+	endRemoveRows();
+}
