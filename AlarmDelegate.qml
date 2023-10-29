@@ -7,7 +7,7 @@ import "HeAlarmJs.js" as HeAlarmJs
 Item {
 	property int hour: 10
 	property int minute: 10
-	property bool isActive: activeSwitch.checked
+	property bool isActive: true
 	property string title: "闹铃"
 	property int activeDays: HeAlarm.All
 	signal clicked()
@@ -15,6 +15,7 @@ Item {
 
 	id: root
 	implicitWidth: card.implicitWidth; implicitHeight: card.implicitHeight
+	onIsActiveChanged: activeSwitch.checked = isActive
 
 	MouseArea {
 		anchors.fill: parent
@@ -58,6 +59,7 @@ Item {
 						Controls.Material.accent: "lightgreen"
 
 						id: activeSwitch
+						checked: isActive
 						onCheckedChanged: root.isActive = checked
 					}
 				}

@@ -57,11 +57,7 @@ Item {
 				}
 				onClicked: {
 					editPage.visible = true
-					editPage.hour = lstView.currentItem.hour
-					editPage.minute = lstView.currentItem.minute
-					editPage.title = lstView.currentItem.title
-					editPage.activeDays = lstView.currentItem.activeDays
-					editPage.autoSetComboBox()
+					privateFunc.fillEditPage()
 				}
 			}
 
@@ -75,7 +71,12 @@ Item {
 					source: "qrc:///res/Icons/Material/Rounded/Plus.png"
 					mipmap: true
 				}
-				onClicked: almModel.append(1, 2, false, HeAlarm.All, "Test Test Test")
+				onClicked: {
+					almModel.append(new Date().getHours(), new Date().getMinutes())
+					lstView.currentIndex = lstView.count - 1
+					editBtn.visible = true
+					editBtn.clicked()
+				}
 			}
 		}
 	}
@@ -85,6 +86,17 @@ Item {
 		function onAccepted() {
 			editPage.visible = false
 			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
+		}
+	}
+
+	QtObject {
+		id: privateFunc
+		function fillEditPage() {
+			editPage.hour = lstView.currentItem.hour
+			editPage.minute = lstView.currentItem.minute
+			editPage.title = lstView.currentItem.title
+			editPage.activeDays = lstView.currentItem.activeDays
+			editPage.autoSetComboBox()
 		}
 	}
 }
