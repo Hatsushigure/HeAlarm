@@ -45,13 +45,14 @@ Item {
 						Layout.row: 1; Layout.column: 1
 						Layout.alignment: Qt.AlignCenter
 
-						WeekIndicator {text: "一"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Monday}
-						WeekIndicator {text: "二"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Tuesday}
-						WeekIndicator {text: "三"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Wednesday}
-						WeekIndicator {text: "四"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Thursday}
-						WeekIndicator {text: "五"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Friday}
-						WeekIndicator {text: "六"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Saturday}
-						WeekIndicator {text: "日"; activeColor: "lightgreen"; isActive: activeDays & HeAlarm.Sunday}
+						Repeater {
+							model: 7
+							delegate: WeekIndicator {
+								text: HeAlarmJs.dayNames[model.index]
+								activeColor: "lightgreen"
+								isActive: activeDays & HeAlarmJs.setBit(0, model.index, 1)
+							}
+						}
 					}
 					Controls.Switch {
 						Layout.row: 0; Layout.column: 2

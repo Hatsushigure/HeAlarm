@@ -5,7 +5,6 @@ import "HeAlarmJs.js" as HeAlarmJs
 import HeAlarm
 
 Item {
-	readonly property var dayNameLst: ["一", "二", "三", "四", "五", "六", "日"]
 	property int activeDays: 0
 	property int initialState: 0
 
@@ -25,6 +24,7 @@ Item {
 		}
 
 		Controls.ComboBox {
+			Controls.Material.accent: "lightgreen"
 			id: repeatComboBox
 			Layout.fillWidth: true
 			model: ["仅一次", "每天", "工作日", "周末", "自定义"]
@@ -34,15 +34,12 @@ Item {
 					activeDays = 0;
 					break;
 				case 1:
-					//					activeDays = 0x7F;
 					activeDays = HeAlarm.All;
 					break;
 				case 2:
-					//					activeDays = 0x1F;
 					activeDays = HeAlarm.Weekday;
 					break;
 				case 3:
-					//					activeDays = 0x60;
 					activeDays = HeAlarm.Weekend;
 					break;
 				default:
@@ -72,7 +69,7 @@ Item {
 
 					Text {
 						anchors.centerIn: parent
-						text: dayNameLst[model.index]
+						text: HeAlarmJs.dayNames[model.index]
 						font.pointSize: 14
 					}
 				}

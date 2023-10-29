@@ -89,18 +89,15 @@ Item {
 							}
 
 							Controls.TextField {
+								Controls.Material.accent: "lightgreen"
 								id: titleBox
 								Layout.fillWidth: true
 							}
 						}
-						//BorderIndicator {}
 					}
-
 					Item {Layout.fillHeight: true}
-					//BorderIndicator {}
 				}
 			}
-			//BorderIndicator {}
 		}
 	}
 

@@ -1,5 +1,7 @@
 .pragma library
 
+var dayNames = ["一", "二", "三", "四", "五", "六", "日"]
+
 function timeTxt(i) {
 	if (i < 10)
 		return "" + 0 + i
