@@ -8,6 +8,8 @@ AlarmModel::AlarmModel(QObject *parent) :
 {
 	auto fileMgr = HeAlarm::alarmFileManager();
 	fileMgr->setData(&m_data);
+	fileMgr->read();
+	emit dataChanged(index(0), index(m_data.size()));
 }
 
 int AlarmModel::rowCount(const QModelIndex &parent) const

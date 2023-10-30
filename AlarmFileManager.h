@@ -19,5 +19,6 @@ public:
 	void setData(QList<AlarmData>* data);
 public:
 	void write();
+	void read();
 };
 
