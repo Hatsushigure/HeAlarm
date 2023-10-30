@@ -13,9 +13,10 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(HeAlarm
     main.cpp
-    HeAlarm.h	    HeAlarm.cpp
-    AlarmData.h	    AlarmData.cpp
-    AlarmModel.h    AlarmModel.cpp
+    HeAlarm.h		HeAlarm.cpp
+    AlarmData.h		AlarmData.cpp
+    AlarmModel.h	AlarmModel.cpp
+    AlarmFileManager.h	AlarmFileManager.cpp
 )
 
 qt_add_qml_module(HeAlarm
