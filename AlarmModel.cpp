@@ -1,9 +1,15 @@
 #include "AlarmModel.h"
 #include <AlarmData.h>
+#include <AlarmFileManager.h>
+#include "HeAlarm.h"
 
-AlarmModel::AlarmModel(QObject *parent)
-	: QAbstractListModel(parent)
+AlarmModel::AlarmModel(QObject *parent) :
+	QAbstractListModel{parent}
 {
+	auto fileMgr = HeAlarm::alarmFileManager();
+	fileMgr->setData(&m_data);
+	fileMgr->read();
+	emit dataChanged(index(0), index(m_data.size()));
 }
 
 int AlarmModel::rowCount(const QModelIndex &parent) const
@@ -37,30 +43,6 @@ QVariant AlarmModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-bool AlarmModel::insertRows(int row, int count, const QModelIndex &parent)
-{
-	if (parent.isValid())
-		return false;
-	if (row < 0 || row > m_data.size() || count < 1)
-		return false;
-	beginInsertRows(parent, row, row + count - 1);
-	m_data.insert(row, count, {});
-	endInsertRows();
-	return true;
-}
-
-bool AlarmModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-	if (parent.isValid())
-		return false;
-	if (row < 0 || row > m_data.size() || count < 1 || row + count > m_data.size())
-		return false;
-	beginRemoveRows(parent, row, row + count - 1);
-	m_data.remove(row, count);
-	endRemoveRows();
-	return true;
-}
-
 QHash<int, QByteArray> AlarmModel::roleNames() const
 {
 	auto hash = QHash<int, QByteArray>();
@@ -77,6 +59,7 @@ void AlarmModel::append(const AlarmData& data)
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_data.emplace_back(data);
 	endInsertRows();
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::append(int hour, int minute, bool isActive, int activeDays, const QString& title)
@@ -84,6 +67,7 @@ void AlarmModel::append(int hour, int minute, bool isActive, int activeDays, con
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_data.emplace_back(hour, minute, activeDays, title, isActive);
 	endInsertRows();
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::append(AlarmData&& data)
@@ -91,6 +75,7 @@ void AlarmModel::append(AlarmData&& data)
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_data.emplace_back(data);
 	endInsertRows();
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::setData(int row, const AlarmData& data)
@@ -101,6 +86,7 @@ void AlarmModel::setData(int row, const AlarmData& data)
 		return;
 	m_data[row] = data;
 	emit dataChanged(index(row), index(row));
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::setData(int row, AlarmData&& data)
@@ -111,6 +97,7 @@ void AlarmModel::setData(int row, AlarmData&& data)
 		return;
 	m_data[row] = data;
 	emit dataChanged(index(row), index(row));
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title)
@@ -128,6 +115,7 @@ void AlarmModel::setIsActive(int row, bool isActive)
 		return;
 	m_data[row].isActive = isActive;
 	emit dataChanged(index(row), index(row), {AlarmDataRoles::IsActiveRole});
+	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::remove(int row)
@@ -137,4 +125,5 @@ void AlarmModel::remove(int row)
 	beginRemoveRows(QModelIndex(), row, row);
 	m_data.remove(row);
 	endRemoveRows();
+	HeAlarm::alarmFileManager()->write();
 }
