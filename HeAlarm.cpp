@@ -15,3 +15,9 @@ AlarmFileManager* HeAlarm::alarmFileManager()
 		s_alarmFileManager = new AlarmFileManager();
 	return s_alarmFileManager;
 }
+
+HeAlarm::DayOfWeek HeAlarm::fromQtDayOfWeek(Qt::DayOfWeek original)
+{
+	auto val = 1 << (original - 1);
+	return static_cast<HeAlarm::DayOfWeek>(val);
+}

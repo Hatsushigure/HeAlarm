@@ -17,6 +17,7 @@ qt_add_executable(HeAlarm
     AlarmData.h		AlarmData.cpp
     AlarmModel.h	AlarmModel.cpp
     AlarmFileManager.h	AlarmFileManager.cpp
+    CoreNotifier.h	CoreNotifier.cpp
 )
 
 qt_add_qml_module(HeAlarm

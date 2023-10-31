@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 
 class AlarmFileManager;
+class CoreNotifier;
 
 class HeAlarm : public QObject
 {
@@ -19,5 +20,7 @@ public:
 	explicit HeAlarm(QObject *parent = nullptr);
 public:
 	static AlarmFileManager* alarmFileManager();
+public:
+	static HeAlarm::DayOfWeek fromQtDayOfWeek(Qt::DayOfWeek original);
 };
 

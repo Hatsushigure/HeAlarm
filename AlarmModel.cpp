@@ -2,14 +2,21 @@
 #include <AlarmData.h>
 #include <AlarmFileManager.h>
 #include "HeAlarm.h"
+#include  "CoreNotifier.h"
 
 AlarmModel::AlarmModel(QObject *parent) :
 	QAbstractListModel{parent}
 {
 	auto fileMgr = HeAlarm::alarmFileManager();
+	auto notifier = new CoreNotifier(this);
 	fileMgr->setData(&m_data);
 	fileMgr->read();
 	emit dataChanged(index(0), index(m_data.size()));
+}
+
+const QList<AlarmData>& AlarmModel::rawData() const
+{
+	return m_data;
 }
 
 int AlarmModel::rowCount(const QModelIndex &parent) const
