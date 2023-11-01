@@ -1,8 +1,8 @@
-#include "HeAlarm.h"
+#include "HeAlarmApp.h"
 
 
 int main(int argc, char *argv[])
 {
-	HeAlarm app(argc, argv);
+	HeAlarmApp app(argc, argv);
 	return app.exec();
 }
