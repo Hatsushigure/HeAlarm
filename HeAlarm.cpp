@@ -1,43 +1,47 @@
 #include "HeAlarm.h"
 #include "AlarmFileManager.h"
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-HeAlarm* HeAlarm::s_app = nullptr;
+HeAlarmApp* HeAlarm::s_app = nullptr;
+QQmlApplicationEngine* HeAlarm::s_qmlEngine = nullptr;
+QObject* HeAlarm::s_trayIcon = nullptr;
 AlarmFileManager* HeAlarm::s_alarmFileManager = nullptr;
+AlarmModel* HeAlarm::s_alarmModel = nullptr;
+CoreNotifier* HeAlarm::s_notifier = nullptr;
 TrayNotificationSender* HeAlarm::s_notificationSender = nullptr;
 
-HeAlarm::HeAlarm(int argc, char** argv)
-	: QGuiApplication {argc, argv}
+HeAlarm::HeAlarm(QObject* parent)
+	: QObject {parent} {}
+
+HeAlarmApp* HeAlarm::app()
 {
-	init();
+	return s_app;
+}
+
+QQmlApplicationEngine* HeAlarm::qmlEngine()
+{
+	return s_qmlEngine;
 }
 
 AlarmFileManager* HeAlarm::alarmFileManager()
 {
-	if (s_alarmFileManager == nullptr)
-		s_alarmFileManager = new AlarmFileManager();
 	return s_alarmFileManager;
+}
+
+AlarmModel* HeAlarm::alarmModel()
+{
+	return s_alarmModel;
+}
+
+CoreNotifier* HeAlarm::notifier()
+{
+	return s_notifier;
 }
 
 TrayNotificationSender* HeAlarm::notificationSender()
 {
 	return s_notificationSender;
-}
-
-void HeAlarm::setNotificationSender(TrayNotificationSender* notificationSender)
-{
-	s_notificationSender = notificationSender;
-}
-
-void HeAlarm::init()
-{
-	QQmlApplicationEngine engine;
-	QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
-					 &app, []() { QCoreApplication::exit(-1); },
-	Qt::QueuedConnection);
-	engine.loadFromModule("HeAlarm", "Main");
-	auto trayIcon = engine.rootObjects().at(0)->findChild<QObject*>("sysTrayIcon");
-	HeAlarm::setNotificationSender(new TrayNotificationSender(trayIcon));
 }
 
 HeAlarm::DayOfWeek HeAlarm::fromQtDayOfWeek(Qt::DayOfWeek original)

@@ -1,23 +1,22 @@
 #pragma once
-#include "AlarmData.h"
 #include <QList>
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 
-class AlarmFileManager
+class AlarmModel;
+
+class AlarmFileManager : public QObject
 {
 	static constexpr auto fileName = "alarms.xml";
 private:
 	QFile m_file;
-	QList<AlarmData>* m_data;
+	AlarmModel* m_model;
 	QXmlStreamWriter m_fileWriter;
 	QXmlStreamReader m_fileReader;
 public:
-	AlarmFileManager(QList<AlarmData>* data = nullptr);
-public:
-	void setData(QList<AlarmData>* data);
-public:
+	explicit AlarmFileManager(AlarmModel* model, QObject* parent = nullptr);
+public slots:
 	void write();
 	void read();
 };

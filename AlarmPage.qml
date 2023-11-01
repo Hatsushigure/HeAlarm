@@ -19,7 +19,7 @@ Item {
 			Layout.fillWidth: true; Layout.fillHeight: true
 
 			id: lstView
-			model: AlarmModel {id: almModel}
+			model: globalProp.alarmModel
 
 			spacing: 16
 			clip: true
@@ -37,7 +37,7 @@ Item {
 					lstView.currentIndex = index
 					editBtn.visible = true
 				}
-				onIsActiveChanged: almModel.setIsActive(index, isActive)
+				onIsActiveChanged: globalProp.alarmModel.setIsActive(index, isActive)
 			}
 		}
 
@@ -72,7 +72,7 @@ Item {
 					mipmap: true
 				}
 				onClicked: {
-					almModel.append(new Date().getHours(), new Date().getMinutes())
+					globalProp.alarmModel.append(new Date().getHours(), new Date().getMinutes())
 					lstView.currentIndex = lstView.count - 1
 					editBtn.visible = true
 					editBtn.clicked()
@@ -85,14 +85,16 @@ Item {
 		target: editPage
 		function onAccepted() {
 			editPage.visible = false
-			almModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
+			globalProp.alarmModel.setData(lstView.currentIndex, editPage.hour, editPage.minute, lstView.currentItem.isActive, editPage.activeDays, editPage.title)
 		}
 		function onDeleteRequested() {
 			editPage.visible = false
 			editBtn.visible = false
-			almModel.remove(lstView.currentIndex)
+			globalProp.alarmModel.remove(lstView.currentIndex)
 		}
 	}
+
+	HeAlarm {id: globalProp}
 
 	QtObject {
 		id: privateFunc

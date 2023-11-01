@@ -23,14 +23,13 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 	QHash<int, QByteArray> roleNames() const override;
-public:
+public slots:
 	void append(const AlarmData& data);
-	void append(AlarmData&& data);
-	Q_INVOKABLE void append(int hour = 10, int minute = 10, bool isActive = true, int activeDays = 0, const QString& title = "闹铃");
+	void append(int hour = 10, int minute = 10, bool isActive = true, int activeDays = 0, const QString& title = "闹铃");
 	void setData(int row, const AlarmData& data);
-	void setData(int row, AlarmData&& data);
-	Q_INVOKABLE void setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title);
-	Q_INVOKABLE void setIsActive(int row, bool isActive);
-	Q_INVOKABLE void remove(int row);
+	void setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title);
+	void setIsActive(int row, bool isActive);
+	void remove(int row);
+	void clear();
 };
 

@@ -1,25 +1,27 @@
 #include "AlarmFileManager.h"
 #include <QXmlStreamWriter>
+#include "AlarmModel.h"
 #include "HeAlarm.h"
 #include <format>
 
-AlarmFileManager::AlarmFileManager(QList<AlarmData>* data) :
-	m_data {data}
+AlarmFileManager::AlarmFileManager(AlarmModel* model, QObject* parent) :
+	QObject {parent},
+	m_model {model}
 {
 	m_file.setFileName(fileName);
 	m_fileReader.setDevice(&m_file);
 	m_fileWriter.setDevice(&m_file);
 	m_fileWriter.setAutoFormatting(true);
-}
-
-void AlarmFileManager::setData(QList<AlarmData>* data)
-{
-	m_data = data;
+	read();
+	connect(m_model, &AlarmModel::dataChanged, this, &AlarmFileManager::write);
+	connect(m_model, &AlarmModel::rowsInserted, this, &AlarmFileManager::write);
+	connect(m_model, &AlarmModel::rowsMoved, this, &AlarmFileManager::write);
+	connect(m_model, &AlarmModel::rowsRemoved, this, &AlarmFileManager::write);
 }
 
 void AlarmFileManager::write()
 {
-	if (m_data == nullptr)
+	if (m_model == nullptr)
 	{
 		qWarning() << "Alarm data list not initialized, skipping instead.";
 		return;
@@ -28,7 +30,7 @@ void AlarmFileManager::write()
 	m_fileWriter.writeStartDocument();
 	m_fileWriter.writeStartElement("AlarmData");
 	m_fileWriter.writeTextElement("FileVersion", std::format("{}", HeAlarm::alarmFileVersion));
-	for (const auto& alm : (*m_data))
+	for (const auto& alm : m_model->rawData())
 	{
 		m_fileWriter.writeStartElement("Alarm");
 		m_fileWriter.writeAttribute("hour", std::format("{}", alm.hour));
@@ -45,12 +47,12 @@ void AlarmFileManager::write()
 
 void AlarmFileManager::read()
 {
-	if (m_data == nullptr)
+	if (m_model == nullptr)
 	{
 		qWarning() << "Alarm data list not initialized, skipping instead.";
 		return;
 	}
-	m_data->clear();
+	m_model->clear();
 	m_file.open(QFile::ReadOnly);
 	while (!m_fileReader.atEnd())
 	{
@@ -80,7 +82,7 @@ void AlarmFileManager::read()
 				almData.isActive = attributes.value("isActive") == u"true" ? true : false;
 				almData.activeDays = attributes.value("activeDays").toInt();
 				almData.title = attributes.value("title").toString();
-				m_data->append(std::move(almData));
+				m_model->append(almData);
 			}
 			break;
 		}
