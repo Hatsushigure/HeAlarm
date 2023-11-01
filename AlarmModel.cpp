@@ -1,21 +1,9 @@
 #include "AlarmModel.h"
 #include <AlarmData.h>
 #include <AlarmFileManager.h>
-#include "HeAlarm.h"
-#include  "CoreNotifier.h"
-#include "TrayNotificationSender.h"
 
 AlarmModel::AlarmModel(QObject *parent) :
-	QAbstractListModel{parent}
-{
-	auto fileMgr = HeAlarm::alarmFileManager();
-	auto notifier = new CoreNotifier(this);
-	auto notificationSender = HeAlarm::notificationSender();
-	connect(notifier, &CoreNotifier::alarmTriggered, notificationSender, &TrayNotificationSender::sendNotification);
-	fileMgr->setData(&m_data);
-	fileMgr->read();
-	emit dataChanged(index(0), index(m_data.size()));
-}
+	QAbstractListModel{parent} {}
 
 const QList<AlarmData>& AlarmModel::rawData() const
 {
@@ -69,7 +57,6 @@ void AlarmModel::append(const AlarmData& data)
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_data.emplace_back(data);
 	endInsertRows();
-	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::append(int hour, int minute, bool isActive, int activeDays, const QString& title)
@@ -77,15 +64,6 @@ void AlarmModel::append(int hour, int minute, bool isActive, int activeDays, con
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_data.emplace_back(hour, minute, activeDays, title, isActive);
 	endInsertRows();
-	HeAlarm::alarmFileManager()->write();
-}
-
-void AlarmModel::append(AlarmData&& data)
-{
-	beginInsertRows(QModelIndex(), rowCount(), rowCount());
-	m_data.emplace_back(data);
-	endInsertRows();
-	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::setData(int row, const AlarmData& data)
@@ -96,18 +74,6 @@ void AlarmModel::setData(int row, const AlarmData& data)
 		return;
 	m_data[row] = data;
 	emit dataChanged(index(row), index(row));
-	HeAlarm::alarmFileManager()->write();
-}
-
-void AlarmModel::setData(int row, AlarmData&& data)
-{
-	if (row < 0 || row >= m_data.size())
-		return;
-	if (m_data.at(row) == data)
-		return;
-	m_data[row] = data;
-	emit dataChanged(index(row), index(row));
-	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::setData(int row, int hour, int minute, bool isActive, int activeDays, const QString& title)
@@ -125,7 +91,6 @@ void AlarmModel::setIsActive(int row, bool isActive)
 		return;
 	m_data[row].isActive = isActive;
 	emit dataChanged(index(row), index(row), {AlarmDataRoles::IsActiveRole});
-	HeAlarm::alarmFileManager()->write();
 }
 
 void AlarmModel::remove(int row)
@@ -135,5 +100,13 @@ void AlarmModel::remove(int row)
 	beginRemoveRows(QModelIndex(), row, row);
 	m_data.remove(row);
 	endRemoveRows();
-	HeAlarm::alarmFileManager()->write();
+}
+
+void AlarmModel::clear()
+{
+	if (rowCount() == 0)
+		return;
+	beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
+	m_data.clear();
+	endRemoveRows();
 }

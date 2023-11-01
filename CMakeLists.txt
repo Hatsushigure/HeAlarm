@@ -19,6 +19,7 @@ qt_add_executable(HeAlarm
     AlarmFileManager.h		AlarmFileManager.cpp
     CoreNotifier.h		CoreNotifier.cpp
     TrayNotificationSender.h	TrayNotificationSender.cpp
+    HeAlarmApp.h		HeAlarmApp.cpp
 )
 
 qt_add_qml_module(HeAlarm
