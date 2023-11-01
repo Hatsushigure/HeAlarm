@@ -3,6 +3,7 @@
 #include "AlarmModel.h"
 #include "CoreNotifier.h"
 #include "HeAlarm.h"
+#include "TrayNotificationSender.h"
 #include <QQmlApplicationEngine>
 
 HeAlarmApp::HeAlarmApp(int argc, char** argv) :
@@ -23,4 +24,6 @@ void HeAlarmApp::init()
 		Qt::QueuedConnection);
 		HeAlarm::qmlEngine()->loadFromModule("HeAlarm", "Main");
 		HeAlarm::s_trayIcon = HeAlarm::qmlEngine()->rootObjects().at(0)->findChild<QObject*>("sysTrayIcon");
+		HeAlarm::s_notificationSender = new TrayNotificationSender(HeAlarm::s_trayIcon);
+		connect(HeAlarm::notifier(), &CoreNotifier::alarmTriggered, HeAlarm::s_notificationSender, &TrayNotificationSender::sendNotification);
 }
