@@ -7,5 +7,6 @@
         <file>res/Icons/Material/Rounded/Tick.png</file>
         <file>res/Icons/Material/Rounded/X.png</file>
         <file>res/Icons/Material/Rounded/Delete.png</file>
+        <file>res/Logo.png</file>
     </qresource>
 </RCC>

@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Qt.labs.platform as Platform
 import QtQuick.Controls.Material as Controls
 
 Window {
@@ -46,5 +47,12 @@ Window {
 		anchors.fill: parent
 		visible: false
 		onCancled: visible = false
+	}
+
+	Platform.SystemTrayIcon {
+		objectName: "sysTrayIcon"
+		icon.source: "qrc:///res/Logo.png"
+		tooltip: "HeAlarm 0.1.0"
+		visible: true
 	}
 }
