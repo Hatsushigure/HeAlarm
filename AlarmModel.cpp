@@ -3,12 +3,15 @@
 #include <AlarmFileManager.h>
 #include "HeAlarm.h"
 #include  "CoreNotifier.h"
+#include "TrayNotificationSender.h"
 
 AlarmModel::AlarmModel(QObject *parent) :
 	QAbstractListModel{parent}
 {
 	auto fileMgr = HeAlarm::alarmFileManager();
 	auto notifier = new CoreNotifier(this);
+	auto notificationSender = HeAlarm::notificationSender();
+	connect(notifier, &CoreNotifier::alarmTriggered, notificationSender, &TrayNotificationSender::sendNotification);
 	fileMgr->setData(&m_data);
 	fileMgr->read();
 	emit dataChanged(index(0), index(m_data.size()));

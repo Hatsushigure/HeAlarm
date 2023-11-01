@@ -15,8 +15,6 @@ CoreNotifier::CoreNotifier(const AlarmModel* model, QObject *parent) :
 	connect(m_model, &AlarmModel::rowsMoved, this, &CoreNotifier::restartTimers);
 	connect(m_model, &AlarmModel::rowsRemoved, this, &CoreNotifier::restartTimers);
 	restartTimers();
-
-	connect(this, &CoreNotifier::alarmTriggered, this, [](const QVariant& data) {qDebug() << data.value<AlarmData>().title;});
 }
 
 void CoreNotifier::restartTimers()

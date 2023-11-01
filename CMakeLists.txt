@@ -13,11 +13,12 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(HeAlarm
     main.cpp
-    HeAlarm.h		HeAlarm.cpp
-    AlarmData.h		AlarmData.cpp
-    AlarmModel.h	AlarmModel.cpp
-    AlarmFileManager.h	AlarmFileManager.cpp
-    CoreNotifier.h	CoreNotifier.cpp
+    HeAlarm.h			HeAlarm.cpp
+    AlarmData.h			AlarmData.cpp
+    AlarmModel.h		AlarmModel.cpp
+    AlarmFileManager.h		AlarmFileManager.cpp
+    CoreNotifier.h		CoreNotifier.cpp
+    TrayNotificationSender.h	TrayNotificationSender.cpp
 )
 
 qt_add_qml_module(HeAlarm
@@ -36,6 +37,7 @@ qt_add_qml_module(HeAlarm
 	RoundToggleButton.qml
 	BorderIndicator.qml
 	DayPicker.qml
+
 	HeAlarmJs.js
     RESOURCES
         res.qrc
