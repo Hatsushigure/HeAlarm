@@ -5,6 +5,8 @@
 #include "HeAlarm.h"
 #include "TrayNotificationSender.h"
 #include <QQmlApplicationEngine>
+#include <QIcon>
+#include <QPixmap>
 
 HeAlarmApp::HeAlarmApp(int argc, char** argv) :
 	QGuiApplication {argc, argv}
@@ -35,4 +37,12 @@ void HeAlarmApp::fillAppInfo()
 	setApplicationVersion(HeAlarm::versionString());
 	setOrganizationName("初時雨");
 	setOrganizationDomain("Hatsushigure.github.io");
+	auto  pix = QPixmap(":/res/Logo.png");
+	auto icon = QIcon();
+	icon.addPixmap(pix);
+	icon.addPixmap(pix.scaled({64, 64}, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	icon.addPixmap(pix.scaled({48, 48}, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	icon.addPixmap(pix.scaled({32, 32}, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	icon.addPixmap(pix.scaled({16, 16}, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	setWindowIcon(QIcon(pix));
 }
