@@ -31,8 +31,8 @@ Item {
 				required isActive
 				required activeDays
 
-				id: dl
 				width: lstView.width
+				isEditing: ListView.isCurrentItem && editBtn.visible
 				onClicked: {
 					lstView.currentIndex = index
 					editBtn.visible = true

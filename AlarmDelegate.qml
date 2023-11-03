@@ -7,9 +7,10 @@ import "HeAlarmJs.js" as HeAlarmJs
 Item {
 	property int hour: 10
 	property int minute: 10
-	property bool isActive
+	property bool isActive: true
 	property string title: "闹铃"
 	property int activeDays: HeAlarm.All
+	property bool isEditing: false
 	signal clicked()
 	signal cancled()
 
@@ -24,6 +25,7 @@ Item {
 			id: card
 			implicitWidth: layout.implicitWidth; implicitHeight: layout.implicitHeight
 			anchors.centerIn: parent
+			backgroundColor: isEditing ? "#F4F4F4" : "white"
 
 			MouseArea {
 				anchors.fill: parent
