@@ -10,6 +10,7 @@ AlarmFileManager* HeAlarm::s_alarmFileManager = nullptr;
 AlarmModel* HeAlarm::s_alarmModel = nullptr;
 CoreNotifier* HeAlarm::s_notifier = nullptr;
 TrayNotificationSender* HeAlarm::s_notificationSender = nullptr;
+QMediaPlayer* HeAlarm::s_soundPlayer = nullptr;
 
 HeAlarm::HeAlarm(QObject* parent)
 	: QObject {parent} {}
@@ -47,6 +48,11 @@ CoreNotifier* HeAlarm::notifier()
 TrayNotificationSender* HeAlarm::notificationSender()
 {
 	return s_notificationSender;
+}
+
+QMediaPlayer* HeAlarm::soundPlayer()
+{
+	return s_soundPlayer;
 }
 
 HeAlarm::DayOfWeek HeAlarm::fromQtDayOfWeek(Qt::DayOfWeek original)

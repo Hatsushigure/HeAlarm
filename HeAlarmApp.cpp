@@ -7,6 +7,8 @@
 #include <QQmlApplicationEngine>
 #include <QIcon>
 #include <QPixmap>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 HeAlarmApp::HeAlarmApp(int argc, char** argv) :
 	QGuiApplication {argc, argv}
@@ -28,6 +30,10 @@ void HeAlarmApp::init()
 					 HeAlarm::app(), []() { QCoreApplication::exit(-1); },
 	Qt::QueuedConnection);
 	HeAlarm::qmlEngine()->loadFromModule("HeAlarm", "Main");
+	HeAlarm::s_soundPlayer = new QMediaPlayer;
+	HeAlarm::soundPlayer()->setAudioOutput(new QAudioOutput);
+	HeAlarm::soundPlayer()->setSource(QUrl::fromLocalFile("C:\\Windows\\Media\\Alarm01.wav"));
+	connect(HeAlarm::notifier(), &CoreNotifier::alarmTriggered, HeAlarm::soundPlayer(), &QMediaPlayer::play);
 }
 
 void HeAlarmApp::fillAppInfo()

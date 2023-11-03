@@ -8,6 +8,7 @@ class TrayNotificationSender;
 class QQmlApplicationEngine;
 class AlarmModel;
 class HeAlarmApp;
+class QMediaPlayer;
 
 class HeAlarm : public QObject
 {
@@ -22,13 +23,14 @@ private:
 	const static auto s_versionMajor = 0;
 	const static auto s_versionMinor = 1;
 	const static auto s_versionPatch = 1;
-	private:
+private:
 	static HeAlarmApp* s_app;
 	static QQmlApplicationEngine* s_qmlEngine;
 	static AlarmFileManager* s_alarmFileManager;
 	static AlarmModel* s_alarmModel;
 	static CoreNotifier* s_notifier;
 	static TrayNotificationSender* s_notificationSender;
+	static QMediaPlayer* s_soundPlayer;
 public:
 	static constexpr auto alarmFileVersion = 1;
 public:
@@ -41,6 +43,7 @@ public:
 	static AlarmModel* alarmModel();
 	static CoreNotifier* notifier();
 	static TrayNotificationSender* notificationSender();
+	static QMediaPlayer* soundPlayer();
 public:
 	static HeAlarm::DayOfWeek fromQtDayOfWeek(Qt::DayOfWeek original);
 };
