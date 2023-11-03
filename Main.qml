@@ -25,9 +25,7 @@ Window {
 				currentIndex: nvgBar.currentIndex
 				onCurrentIndexChanged: nvgBar.currentIndex = currentIndex
 
-				ClockPage {
-
-				}
+				ClockPage {}
 
 				AlarmPage {
 					editPage: editPge
@@ -47,12 +45,5 @@ Window {
 		anchors.fill: parent
 		visible: false
 		onCancled: visible = false
-	}
-
-	Platform.SystemTrayIcon {
-		objectName: "sysTrayIcon"
-		icon.source: "qrc:///res/Logo.png"
-		tooltip: "HeAlarm 0.1.0"
-		visible: true
 	}
 }

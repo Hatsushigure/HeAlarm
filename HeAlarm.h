@@ -21,7 +21,6 @@ public:
 private:
 	static HeAlarmApp* s_app;
 	static QQmlApplicationEngine* s_qmlEngine;
-	static QObject* s_trayIcon;
 	static AlarmFileManager* s_alarmFileManager;
 	static AlarmModel* s_alarmModel;
 	static CoreNotifier* s_notifier;
