@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include "HeAlarm.h"
 
-CoreNotifier::CoreNotifier(const AlarmModel* model, QObject *parent) :
+CoreNotifier::CoreNotifier(AlarmModel* model, QObject *parent) :
 	QObject{parent},
 	m_model {model}
 {
@@ -23,8 +23,9 @@ void CoreNotifier::restartTimers()
 		delete pt;
 	m_timerList.clear();
 	const auto& data = m_model->rawData();
-	for (const auto& alm : data)
+	for (int i = 0; i < data.size(); i++)
 	{
+		const auto& alm = data.at(i);
 		if (!alm.isActive)
 			continue;
 		auto current = QDateTime::currentDateTime();
@@ -38,6 +39,8 @@ void CoreNotifier::restartTimers()
 		auto timer = new QTimer(this);
 		m_timerList.push_back(timer);
 		connect(timer, &QTimer::timeout, this, [this, alm]() {emit this->alarmTriggered(QVariant::fromValue(alm));});
+		if (alm.activeDays == 0)
+			connect(timer, &QTimer::timeout, m_model, [this, i]() {this->m_model->setIsActive(i, false);});
 		timer->setInterval(duration);
 		timer->setSingleShot(true);
 		timer->start();

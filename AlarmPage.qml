@@ -38,6 +38,14 @@ Item {
 					editBtn.visible = true
 				}
 				onIsActiveChanged: globalProp.alarmModel.setIsActive(index, isActive)
+				Connections {
+					target: globalProp.alarmModel
+					function onDataChanged(topLeft, bottomRight) {
+						if (index < topLeft.row || bottomRight.row < index)
+							return
+						isActive = globalProp.alarmModel.data(globalProp.alarmModel.index(index, 0), AlarmModel.IsActiveRole)
+					}
+				}
 			}
 		}
 
