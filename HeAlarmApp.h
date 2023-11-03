@@ -7,5 +7,6 @@ public:
 	HeAlarmApp(int argc, char** argv);
 private:
 	void init();
+	void fillAppInfo();
 };
 

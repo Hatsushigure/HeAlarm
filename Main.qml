@@ -6,7 +6,6 @@ import QtQuick.Controls.Material as Controls
 Window {
 	width: 640; height: 724
 	visible: true
-	title: qsTr("HeAlarm 0.1.0")
 	color: "#f1f1f1"
 	minimumWidth: swpView.currentItem.implicitWidth; minimumHeight: 600
 
