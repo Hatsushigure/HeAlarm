@@ -5,7 +5,6 @@
 
 HeAlarmApp* HeAlarm::s_app = nullptr;
 QQmlApplicationEngine* HeAlarm::s_qmlEngine = nullptr;
-QObject* HeAlarm::s_trayIcon = nullptr;
 AlarmFileManager* HeAlarm::s_alarmFileManager = nullptr;
 AlarmModel* HeAlarm::s_alarmModel = nullptr;
 CoreNotifier* HeAlarm::s_notifier = nullptr;
