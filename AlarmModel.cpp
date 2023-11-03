@@ -90,7 +90,7 @@ void AlarmModel::setIsActive(int row, bool isActive)
 	if (m_data[row].isActive == isActive)
 		return;
 	m_data[row].isActive = isActive;
-	emit dataChanged(index(row), index(row), {AlarmDataRoles::IsActiveRole});
+	emit dataChanged(index(row), index(row), {AlarmModel::IsActiveRole});
 }
 
 void AlarmModel::remove(int row)

@@ -7,7 +7,7 @@ import "HeAlarmJs.js" as HeAlarmJs
 Item {
 	property int hour: 10
 	property int minute: 10
-	property bool isActive: true
+	property bool isActive
 	property string title: "闹铃"
 	property int activeDays: HeAlarm.All
 	signal clicked()
