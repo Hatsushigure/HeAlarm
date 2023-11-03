@@ -19,9 +19,12 @@ public:
 	enum DayOfWeek {Monday = 0x1, Tuesday = 0x2, Wednesday = 0x4, Thursday = 0x8, Friday = 0x10, Saturday = 0x20, Sunday = 0x40, Weekday = 0x1F, Weekend = 0x60, All = 0x7F};
 	Q_ENUM(DayOfWeek)
 private:
+	const static auto s_versionMajor = 0;
+	const static auto s_versionMinor = 1;
+	const static auto s_versionPatch = 1;
+	private:
 	static HeAlarmApp* s_app;
 	static QQmlApplicationEngine* s_qmlEngine;
-	static QObject* s_trayIcon;
 	static AlarmFileManager* s_alarmFileManager;
 	static AlarmModel* s_alarmModel;
 	static CoreNotifier* s_notifier;
@@ -31,6 +34,7 @@ public:
 public:
 	explicit HeAlarm(QObject* parent = nullptr);
 public:
+	static QString versionString();
 	static HeAlarmApp* app();
 	static QQmlApplicationEngine* qmlEngine();
 	static AlarmFileManager* alarmFileManager();

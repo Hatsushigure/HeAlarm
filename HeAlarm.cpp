@@ -2,10 +2,10 @@
 #include "AlarmFileManager.h"
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <format>
 
 HeAlarmApp* HeAlarm::s_app = nullptr;
 QQmlApplicationEngine* HeAlarm::s_qmlEngine = nullptr;
-QObject* HeAlarm::s_trayIcon = nullptr;
 AlarmFileManager* HeAlarm::s_alarmFileManager = nullptr;
 AlarmModel* HeAlarm::s_alarmModel = nullptr;
 CoreNotifier* HeAlarm::s_notifier = nullptr;
@@ -13,6 +13,11 @@ TrayNotificationSender* HeAlarm::s_notificationSender = nullptr;
 
 HeAlarm::HeAlarm(QObject* parent)
 	: QObject {parent} {}
+
+QString HeAlarm::versionString()
+{
+	return QString::fromStdString(std::format("{}.{}.{}", s_versionMajor, s_versionMinor, s_versionPatch));
+}
 
 HeAlarmApp* HeAlarm::app()
 {

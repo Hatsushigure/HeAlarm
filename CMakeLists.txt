@@ -8,6 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -57,6 +58,7 @@ set_target_properties(HeAlarm PROPERTIES
 
 target_link_libraries(HeAlarm
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::Widgets
 )
 
 include(GNUInstallDirs)
